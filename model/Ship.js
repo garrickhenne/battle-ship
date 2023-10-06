@@ -3,10 +3,11 @@ class Ship {
   // size: number
   // head: first coordinate
   // tail: last coordinate
-  constructor(size, head, tail) {
+  constructor(name, size, head, tail) {
     this._size = size;
     this._head = head;
     this._tail = tail;
+    this._name = name;
   }
 }
 
