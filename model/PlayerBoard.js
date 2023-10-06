@@ -57,6 +57,11 @@ class PlayerBoard {
     return { alreadyChosen: false, hitShip: !!tile.ship };
   }
 
+  // Ships is an array of ship classes.
+  initShips(ships) {
+    // TODO:
+  }
+
   // ship: ship type
   // head: coordinate
   // tail: coordinate
