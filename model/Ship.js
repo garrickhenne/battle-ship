@@ -13,6 +13,10 @@ class Ship {
   get size() {
     return this._size;
   }
+
+  get name() {
+    return this._name;
+  }
 }
 
 module.exports = Ship;
