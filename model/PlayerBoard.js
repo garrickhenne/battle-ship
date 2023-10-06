@@ -18,6 +18,10 @@ const Tile = require('./Tile');
 class PlayerBoard {
   constructor() {
     this._board = this.createBoard();
+    // Health is the sum of all battleships that havnt been hit.
+    // Player always starts with 5 ships, 1 of each type.
+    // This could probably be changed and implemented somewhere else in the future.
+    this._health = 17;
   }
 
   // Creates a 10x10 board matrix.
@@ -34,6 +38,23 @@ class PlayerBoard {
     }
 
     return bd;
+  }
+
+  thisPlayerHit() {
+    this._health--;
+  }
+
+  // Returns an object representing if the tile was already shot, and if there was a ship there or not.
+  // Else, register shot to tile and return object representing if ship was shot there.
+  registerShot(coordinate) {
+    const tile = this.board[coordinate.x][coordinate.y];
+    if (tile.wasChosen) {
+      return { alreadyChosen: true, hitShip: !!tile.ship };
+    }
+
+    tile.choose();
+    this.thisPlayerHit();
+    return { alreadyChosen: false, hitShip: !!tile.ship };
   }
 
   // ship: ship type
@@ -98,6 +119,10 @@ class PlayerBoard {
     }
 
     return rtn;
+  }
+
+  get health() {
+    return this._health;
   }
 
   get board() {
