@@ -6,3 +6,5 @@ class Cruiser extends Ship {
     super(3, head, tail);
   }
 }
+
+module.exports = Cruiser;

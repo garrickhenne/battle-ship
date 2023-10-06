@@ -6,3 +6,5 @@ class Battleship extends Ship {
     super(4, head, tail);
   }
 }
+
+module.exports = Battleship;

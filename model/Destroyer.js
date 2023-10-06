@@ -6,3 +6,5 @@ class Destroyer extends Ship {
     super(2, head, tail);
   }
 }
+
+module.exports = Destroyer;

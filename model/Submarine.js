@@ -6,3 +6,5 @@ class Submarine extends Ship {
     super(3, head, tail);
   }
 }
+
+module.exports = Submarine;

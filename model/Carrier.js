@@ -6,3 +6,5 @@ class Carrier extends Ship {
     super(5, head, tail);
   }
 }
+
+module.exports = Carrier;
