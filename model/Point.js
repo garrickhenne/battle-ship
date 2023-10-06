@@ -6,6 +6,10 @@ class Point {
     this._point = point;
   }
 
+  get point() {
+    return this._point;
+  }
+
   // [1, 9]
   toXCoordinate() {
     return this._point + 1;

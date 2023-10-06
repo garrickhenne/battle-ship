@@ -1,10 +1,7 @@
+const Coordinate = require('./Coordinate');
+const Tile = require('./Tile');
 // Each player has a 10x10 board on which the player is able to place 5 ships:
 
-// A Carrier, which is 5 tiles long
-// A Battleship, which is 4 tiles long
-// A Cruiser, which is 3 tiles long
-// A Submarine, which is 3 tiles long
-// A Destroyer, which is 2 tiles long
 // Each ship can be placed either horizontally or vertically on the board, and cannot be placed partially off the board.
 
 // Each tile is denoted by a coordinate, A-J for columns and 1-10 for rows
@@ -17,7 +14,6 @@
 // A ship is sunk if all the tiles for that ship have been marked as a HIT.
 
 // The game ends when one player has sunk all of the opposing players ships.
-const Coordinate = require('./Coordinate');
 
 class PlayerBoard {
   constructor() {
@@ -31,7 +27,8 @@ class PlayerBoard {
     for (let i = 0; i < 10; i++) {
       let row = [];
       for (let j = 0; j < 10; j++) {
-        row.push({ coordinate: new Coordinate(i, j) });
+        const tile = new Tile(new Coordinate(i, j));
+        row.push(tile);
       }
       bd.push(row);
     }
@@ -39,8 +36,52 @@ class PlayerBoard {
     return bd;
   }
 
-  addShip(ship, from, to) {
+  // ship: ship type
+  // head: coordinate
+  // tail: coordinate
+  addShip(ship, head, tail) {
+    const isPlacedHorizontal = (head, tail) => {
+      return head.x === tail.x;
+    };
 
+    const placeHorizontal = (ship, head) => {
+      let length = ship.size;
+      let index = head.y;
+      let next = this.board[head.x][index];
+      while (length) {
+        if (next.ship) {
+          throw Error('Ship is already placed here.');
+        }
+        next.ship = ship;
+
+        index++;
+        next = this.board[head.x][index];
+        length--;
+      }
+    };
+
+    const placeVertical = (ship, head) => {
+      let length = ship.size;
+      let index = head.x;
+      let next = this.board[index][head.y];
+      while (length) {
+        if (next.ship) {
+          throw Error('Ship is already placed here.');
+        }
+        next.ship = ship;
+
+        index++;
+        next = this.board[index][head.y];
+        length--;
+      }
+    };
+
+    if (isPlacedHorizontal(head, tail)) {
+      placeHorizontal(ship, head);
+      return;
+    }
+
+    placeVertical(ship, head);
   }
 
   // Prints the boards coordinates
@@ -51,7 +92,7 @@ class PlayerBoard {
       const row = [];
       for (let j = 0; j < this.board[i].length; j++) {
         const boardPiece = this.board[i][j].coordinate;
-        row.push({ row: boardPiece.x, column: boardPiece.y });
+        row.push({ row: boardPiece.x.toXCoordinate(), column: boardPiece.y.toYCoordinate() });
       }
       rtn.push(row);
     }

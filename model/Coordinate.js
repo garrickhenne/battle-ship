@@ -9,11 +9,19 @@ class Coordinate {
   }
 
   get x() {
-    return this._x.toXCoordinate();
+    return this._x.point;
   }
 
   get y() {
-    return this._y.toYCoordinate();
+    return this._y.point;
+  }
+
+  toXCoordinate() {
+    return this.x.toXCoordinate();
+  }
+
+  toYCoordinate() {
+    return this.y.toYCoordinate();
   }
 }
 

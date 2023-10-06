@@ -9,6 +9,10 @@ class Ship {
     this._tail = tail;
     this._name = name;
   }
+
+  get size() {
+    return this._size;
+  }
 }
 
 module.exports = Ship;
