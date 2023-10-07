@@ -1,7 +1,75 @@
-.grid-container {
-  display: grid;
+body {
+  /* display: flex; */
+  padding: 0px 30px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #767d96, #494D5F);
+  /* background-color: linear-; */
 }
 
-.grid-item {
-  display: inline-grid;
+.grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.grid-cell {
+  border: 1px solid #494D5F;
+  width: 55px;
+  height: 55px;
+  background-color: #E5EAF5;
+  /* border-radius: 10%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ships-container {
+  padding: 20px;
+}
+
+.ship {
+  display: flex;
+  padding: 4px;
+}
+
+.ship-label {
+  padding-right: 30px;
+}
+
+.battleship-ship {
+  height: calc(55px / 2);
+  width: calc(4 * 54px);
+  background-color: rgb(79, 167, 182);
+}
+
+.carrier-ship {
+  height: calc(55px / 2);
+  width: calc(5 * 54px);
+  background-color: rgb(79, 167, 182);
+}
+
+.cruiser-ship {
+  height: calc(55px / 2);
+  width: calc(3 * 54px);
+  background-color: rgb(79, 167, 182);
+}
+
+.destroyer-ship {
+  height: calc(55px / 2);
+  width: calc(2 * 54px);
+  background-color: rgb(79, 167, 182);
+}
+
+.submarine-ship {
+  height: calc(55px / 2);
+  width: calc(3 * 54px);
+  background-color: rgb(79, 167, 182);
 }
