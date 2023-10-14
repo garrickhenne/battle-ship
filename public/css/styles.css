@@ -14,34 +14,22 @@ body {
   justify-content: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-}
-
-.grid-cell {
-  border: 1px solid #494D5F;
-  width: 55px;
-  height: 55px;
-  background-color: #E5EAF5;
-  /* border-radius: 10%; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .ships-container {
-  padding: 20px;
+  padding: 0 15px 15px 15px;
 }
 
 .ship {
   display: flex;
   padding: 4px;
+  min-height: calc(55px / 2);
 }
 
 .ship-label {
   padding-right: 30px;
+}
+
+.ship-icon {
+  cursor: grab;
 }
 
 .battleship-ship {

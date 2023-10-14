@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Ship</title>
+
+    <!-- EXTERNAL JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- INTERNAL JS -->
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <script type="text/javascript" src="/js/grid.js"></script>
+  </head>
+  <body>
+    <p style="text-align: center; margin: 0">Place your ships!</p>
+    <div class="ships-container">
+      <!-- Battleship 4 tiles -->
+      <!-- Carrier    5 tiles -->
+      <!-- Cruiser    3 tiles -->
+      <!-- Destroyer  2 tiles -->
+      <!-- Submarine  3 tiles -->
+      <div class="ship battleship-container">
+        <div class="ship-label">Battleship:</div>
+        <div class="battleship-ship ship-icon"></div>
+      </div>
+      <div class="ship carrier-container">
+        <div class="ship-label">Carrier:</div>
+        <div class="carrier-ship ship-icon"></div>
+      </div>
+      <div class="ship cruiser-container">
+        <div class="ship-label">Cruiser:</div>
+        <div class="cruiser-ship ship-icon"></div>
+      </div>
+      <div class="ship destroyer-container">
+        <div class="ship-label">Destroyer:</div>
+        <div class="destroyer-ship ship-icon"></div>
+      </div>
+      <div class="ship submarine-container">
+        <div class="ship-label">Submarine:</div>
+        <div class="submarine-ship ship-icon"></div>
+      </div>
+    </div>
+    <!-- GRID -->
+    <div class="grid-container"></div>
+
+    <!-- TODO: Refactor to jquery and move this up. -->
+    <script type="text/javascript" src="/js/home.js"></script>
+  </body>
+</html>
