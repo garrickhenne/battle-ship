@@ -6,7 +6,6 @@ body {
   height: 100vh;
   margin: 0;
   background: linear-gradient(135deg, #767d96, #494D5F);
-  /* background-color: linear-; */
 }
 
 .grid-container {
@@ -16,13 +15,15 @@ body {
 
 .grid-cell {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 54px;
   width: 54px;
   border: 1px solid #000;
   background-color: #fff;
   cursor: pointer;
+  /* TODO May be better way to 'snap' ships to grid */
+  justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 /* END GRID STYLES TODO: Refactor away later. */
@@ -43,6 +44,8 @@ body {
 
 .ship-icon {
   cursor: grab;
+  /* TODO May be better way to 'snap' ships to grid */
+  flex-shrink: 0;
 }
 
 .battleship-ship {

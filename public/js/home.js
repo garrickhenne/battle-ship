@@ -5,6 +5,7 @@ $(function() {
   // Code adapted from: https://javascript.info/mouse-drag-and-drop
   const shipIcons = document.getElementsByClassName('ship-icon');
   for (const shipIcon of shipIcons) {
+    const originalPosition = shipIcon.getBoundingClientRect();
     shipIcon.onmousedown = (e) => {
       isDraggingShip = true;
       const moveAt = (pageX, pageY) => {
@@ -41,11 +42,26 @@ $(function() {
 
         console.log('icon position', iconPosition);
         console.log('element under left edge', elementUnderLeft);
-        console.log('element under right edge', elementUnderRight);
+        console.log('element under left is positioned in screen at:', elementUnderLeft.getBoundingClientRect().left);
         shipIcon.hidden = false;
 
         shipIcon.onmouseup = null;
 
+        // || !elementUnderRight.classList.contains('grid-cell')
+        if (!elementUnderLeft.classList.contains('grid-cell')) {
+          console.log('ship was calculated as out of bounds.');
+          // TODO: Return ship to original position.
+          shipIcon.style.top = originalPosition.top + 'px';
+          shipIcon.style.left = originalPosition.left + 'px';
+          return;
+        }
+
+        elementUnderLeft.append(shipIcon);
+        // Make position 'snap' to grid.
+        // shipIcon.style.position = 'static';
+        shipIcon.style.left = elementUnderLeft.getBoundingClientRect().left + 'px';
+        // Place ship in center of cell.
+        shipIcon.style.top = elementUnderLeft.getBoundingClientRect().top + shipIcon.getBoundingClientRect().height / 2 + 'px';
       };
       shipIcon.ondragstart = () => false;
     };
