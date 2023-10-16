@@ -1,69 +1,86 @@
 /* eslint-disable no-undef */
-let isDraggingShip = false;
+const toggleOrientationClass = ($icon) => {
+  if ($icon.hasClass('horizontal')) {
+    $icon.removeClass('horizontal');
+    $icon.addClass('vertical');
+    return;
+  }
+  $icon.removeClass('vertical');
+  $icon.addClass('horizontal');
+};
+
+const moveAt = (pageX, pageY, shiftX, shiftY, $element) => {
+  $element.css({ top: pageY - shiftY + 'px', left: pageX - shiftX + 'px' });
+};
+
+const onMouseMove = (event, shiftX, shiftY, $icon) => {
+  moveAt(event.pageX, event.pageY, shiftX, shiftY, $icon);
+};
 
 $(function() {
   // Code adapted from: https://javascript.info/mouse-drag-and-drop
   const shipIcons = document.getElementsByClassName('ship-icon');
   for (const shipIcon of shipIcons) {
     const originalPosition = shipIcon.getBoundingClientRect();
-    shipIcon.onmousedown = (e) => {
-      isDraggingShip = true;
-      const moveAt = (pageX, pageY) => {
-        shipIcon.style.left = pageX - shiftX + 'px';
-        shipIcon.style.top = pageY - shiftY + 'px';
-      };
-
-      const onMouseMove = (event) => {
-        moveAt(event.pageX, event.pageY);
-      };
-
-      let shiftX = e.clientX - shipIcon.getBoundingClientRect().left;
-      let shiftY = e.clientY - shipIcon.getBoundingClientRect().top;
-
+    $(document).on('contextmenu', (e) => e.preventDefault());
+    $(shipIcon).on('mousedown', function(e) {
       e.preventDefault();
+      if (e.which === 1) {
+        let shiftX = e.clientX - shipIcon.getBoundingClientRect().left;
+        let shiftY = e.clientY - shipIcon.getBoundingClientRect().top;
+        shipIcon.style.position = 'absolute';
+        shipIcon.style.zIndex = 1000;
+        document.body.append(shipIcon);
 
-      shipIcon.style.position = 'absolute';
-      shipIcon.style.zIndex = 1000;
-      document.body.append(shipIcon);
+        moveAt(e.pageX, e.pageY, shiftX, shiftY, $(shipIcon));
 
-      moveAt(e.pageX, e.pageY);
+        document.addEventListener('mousemove', (event) => onMouseMove(event, shiftX, shiftY, $(shipIcon)));
 
-      document.addEventListener('mousemove', onMouseMove);
+        shipIcon.onmouseup = (e) => {
+          document.removeEventListener('mousemove', (event) => onMouseMove(event, shiftX, shiftY, $(shipIcon)));
 
-      shipIcon.onmouseup = (e) => {
-        isDraggingShip = false;
-        document.removeEventListener('mousemove', onMouseMove);
+          const iconPosition = shipIcon.getBoundingClientRect();
 
-        const iconPosition = shipIcon.getBoundingClientRect();
+          shipIcon.hidden = true;
+          const elementUnderLeft = document.elementFromPoint(iconPosition.x, iconPosition.y);
+          const elementUnderRight = document.elementFromPoint(iconPosition.right, iconPosition.bottom);
 
-        shipIcon.hidden = true;
-        const elementUnderLeft = document.elementFromPoint(iconPosition.x, iconPosition.y);
-        const elementUnderRight = document.elementFromPoint(iconPosition.right, iconPosition.bottom);
+          console.log('icon position', iconPosition);
+          console.log('element under left edge', elementUnderLeft);
+          console.log('element under left is positioned in screen at:', elementUnderLeft.getBoundingClientRect().left);
+          shipIcon.hidden = false;
 
-        console.log('icon position', iconPosition);
-        console.log('element under left edge', elementUnderLeft);
-        console.log('element under left is positioned in screen at:', elementUnderLeft.getBoundingClientRect().left);
-        shipIcon.hidden = false;
+          shipIcon.onmouseup = null;
 
-        shipIcon.onmouseup = null;
+          // || !elementUnderRight.classList.contains('grid-cell')
+          if (!elementUnderLeft.classList.contains('grid-cell')) {
+            console.log('ship was calculated as out of bounds.');
+            // TODO: Return ship to original position.
+            shipIcon.style.top = originalPosition.top + 'px';
+            shipIcon.style.left = originalPosition.left + 'px';
+            return;
+          }
 
-        // || !elementUnderRight.classList.contains('grid-cell')
-        if (!elementUnderLeft.classList.contains('grid-cell')) {
-          console.log('ship was calculated as out of bounds.');
-          // TODO: Return ship to original position.
-          shipIcon.style.top = originalPosition.top + 'px';
-          shipIcon.style.left = originalPosition.left + 'px';
-          return;
-        }
-
-        elementUnderLeft.append(shipIcon);
-        // Make position 'snap' to grid.
-        // shipIcon.style.position = 'static';
-        shipIcon.style.left = elementUnderLeft.getBoundingClientRect().left + 'px';
-        // Place ship in center of cell.
-        shipIcon.style.top = elementUnderLeft.getBoundingClientRect().top + shipIcon.getBoundingClientRect().height / 2 + 'px';
-      };
-      shipIcon.ondragstart = () => false;
-    };
+          elementUnderLeft.append(shipIcon);
+          // Make position 'snap' to grid.
+          shipIcon.style.position = 'unset';
+          shipIcon.style.left = elementUnderLeft.getBoundingClientRect().left + 'px';
+          // Place ship in center of cell.
+          shipIcon.style.top = elementUnderLeft.getBoundingClientRect().top + shipIcon.getBoundingClientRect().height / 2 + 'px';
+        };
+        shipIcon.ondragstart = () => false;
+      }
+      if (e.which === 3) {
+        const $icon = $(this);
+        console.log('right click');
+        const origHeight = $icon.height();
+        const origWidth = $icon.width();
+        console.log('origHeight', origHeight);
+        console.log('origWidth', origWidth);
+        $icon.height(origWidth);
+        $icon.width(origHeight);
+        toggleOrientationClass($icon);
+      }
+    });
   }
 });
