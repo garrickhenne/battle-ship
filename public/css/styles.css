@@ -44,7 +44,7 @@ body {
 
 .ship-icon {
   cursor: grab;
-  /* TODO May be better way to 'snap' ships to grid */
+  /* TODO: May be better way to 'snap' ships to grid */
   flex-shrink: 0;
 }
 
